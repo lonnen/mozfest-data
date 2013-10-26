@@ -2,6 +2,7 @@
 from datetime import timedelta
 from flask import make_response, request, current_app, jsonify
 from functools import update_wrapper
+from werkzeug.contrib.cache import SimpleCache
 
 
 def crossdomain(origin=None, methods=None, headers=None,
@@ -50,6 +51,7 @@ import requests
 from flask import Flask
 
 app = Flask(__name__)
+cache = SimpleCache()
 
 
 @app.route('/')
@@ -61,4 +63,8 @@ def ping():
 @crossdomain(origin='*')
 def github_data():
     url = 'http://schedule.mozillafestival.org/schedule'
-    return jsonify(requests.get(url).json())
+    json = cache.get(url)
+    if json is None:
+        json = requests.get(url).json()
+        cache.set(url, json, timeout=5 * 60)
+    return jsonify(json)
