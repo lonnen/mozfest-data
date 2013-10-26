@@ -61,4 +61,4 @@ def ping():
 @crossdomain(origin='*')
 def github_data():
     url = 'http://schedule.mozillafestival.org/schedule'
-    return jsonify(requests.get(url).json)
+    return jsonify(requests.get(url).json())
