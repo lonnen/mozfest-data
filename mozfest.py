@@ -1,6 +1,6 @@
 # from http://flask.pocoo.org/snippets/56/
 from datetime import timedelta
-from flask import make_response, request, current_app
+from flask import make_response, request, current_app, jsonify
 from functools import update_wrapper
 
 
@@ -61,4 +61,4 @@ def ping():
 @crossdomain(origin='*')
 def github_data():
     url = 'http://schedule.mozillafestival.org/schedule'
-    return requests.get(url).text
+    return jsonify(requests.get(url).json)
