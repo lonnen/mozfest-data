@@ -1,0 +1,9 @@
+name: mozfest-data
+framework:
+    type: python
+    runtime: python27
+mem: 32M
+instances: 1
+processes:
+    web: gunicorn -b 0.0.0.0:$PORT mozfest:app
+ignores: ["include", "lib", "bin"]
